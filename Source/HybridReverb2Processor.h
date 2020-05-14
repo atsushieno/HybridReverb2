@@ -124,7 +124,7 @@ public:
 private:
     // this is our current preset - the UI and the host can access this by getting/setting
     // parameter 0.
-    int currentPreset = 1;
+    int currentPreset = -1;
     std::shared_ptr<SystemConfig> systemConfig;
     std::unique_ptr<MasterAndCommander> master;
     std::unique_ptr<HybridConvolver> convolver;
