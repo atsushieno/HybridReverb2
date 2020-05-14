@@ -117,8 +117,8 @@ int PresetManager::readFile(const String &presetFilename)
                          presetFile.getFullPathName() +
                          "\"" + TRANS(":") + "\n" +
                          xmlDoc->getLastParseError();
-        AlertWindow::showMessageBox(AlertWindow::WarningIcon,
-                                    TRANS("Error"), message);
+       // AlertWindow::showMessageBox(AlertWindow::WarningIcon, TRANS("Error"), message);
+        AlertWindow::showNativeDialogBox(TRANS("Error"), message, false);
         xmlDoc.reset();
         return -1;
     }
@@ -136,6 +136,9 @@ int PresetManager::save(void)
     xmlRoot.addChildElement(xmlDefault = new XmlElement("default"));
 
     XmlElement* textElement;
+    if(defaultPresetNum > numPresets)
+    xmlDefault->addChildElement(textElement = XmlElement::createTextElement(String(1)));
+    else
     xmlDefault->addChildElement(textElement = XmlElement::createTextElement(String(defaultPresetNum)));
 
     for (int i = 0; i < numPresets; i++)
@@ -149,8 +152,8 @@ int PresetManager::save(void)
     {
         String message = TRANS("Error writing preset file") + " \"" +
                           file.getFullPathName() + "\"";
-        AlertWindow::showMessageBox(AlertWindow::WarningIcon,
-                                    TRANS("Error"), message);
+     //   AlertWindow::showMessageBox(AlertWindow::WarningIcon, TRANS("Error"), message);
+          AlertWindow::showNativeDialogBox(TRANS("Error"), message, false);
         return -1;
     }
 
