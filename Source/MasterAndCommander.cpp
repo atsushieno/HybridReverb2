@@ -43,6 +43,9 @@
 MasterAndCommander::MasterAndCommander (HybridReverb2Processor *ap, const std::shared_ptr<SystemConfig> &systemConfig)
     : audioPlugin(ap)
 {
+      
+    statepreset = 0;         
+        
     dataOriginal.reset(new SampleData());
     dataTimbre.reset(new SampleData());
     dataModulation.reset(new SampleData());
@@ -63,6 +66,10 @@ void MasterAndCommander::loadInitialPreset()
 {
     String presetFilename = systemConfig->getPresetFilename();
     currentPreset = presetManager->readFile(presetFilename);
+     if(statepreset > 0) 
+     {
+	currentPreset = statepreset;	 		 
+	 }	 
     while (currentPreset < 0)
     {
         FileChooser fc(TRANS("Invalid preset file. Please choose another file to open..."),
@@ -150,14 +157,21 @@ void MasterAndCommander::registerTabMain(TabMain *tab)
 }
 
 
-void MasterAndCommander::onValueChangedPresetNum(int value, bool force)
+void MasterAndCommander::onValueChangedPresetNum(int value2, bool force)
 {
+	int value;
+	
+	value = value2;
+		
     print("MasterAndCommander::onValueChangedPresetNum(" + String(value) + ", " + (force ? "true" : "false") + ") called\n");
     changeFilter = changeFilter || (value != currentPreset);
     if (changeFilter == false && force == false)
-        return;
+    {
+    return;
+	}
 
     currentPreset = value;
+ 
     presetManager->setCurrentPresetNum(value);
     fprintf(stderr, "Master :    new PRESET NUM value : %d\n", value);
 
@@ -375,8 +389,8 @@ void MasterAndCommander::setPresetDB(const std::vector<ParamPreset> & newPresetD
     if (currentPreset > presetManager->getNumPresets())
         currentPreset = 1;
 
-    // apply changes
-    onValueChangedPresetNum(currentPreset, true);
+    // apply changes      
+    onValueChangedPresetNum(currentPreset, true);         
 }
 
 
@@ -465,6 +479,7 @@ void MasterAndCommander::updateTimbre(void)
     dataCurrent = dataOriginal.get();
 
     fprintf(stderr, "enabledTimbre = %d\n", enabledTimbre);
+    
     if (enabledTimbre)
     {
         // dataCurrent -> dataTimbre
@@ -486,6 +501,7 @@ void MasterAndCommander::updateModulation(void)
     else dataCurrent = dataOriginal.get();
 
     fprintf(stderr, "enabledModulation = %d\n", enabledModulation);
+    
     if (enabledModulation)
     {
         // FIXME: add modulation code
@@ -506,6 +522,7 @@ void MasterAndCommander::updateGainDelay(void)
     else dataCurrent = dataOriginal.get();
 
     fprintf(stderr, "enabledGainDelay = %d\n", enabledGainDelay);
+    
     if (enabledGainDelay)
     {
         // dataCurrent -> dataGainDelay
