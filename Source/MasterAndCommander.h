@@ -96,7 +96,9 @@ public:
 
     // "FreqPlot" component methods
     void registerFreqPlot(FreqPlot *plot);
-
+  
+    int statepreset;   
+    int currentPreset = -1; 
 
 private:
     EditorComponent   *compMain = nullptr;
@@ -127,7 +129,7 @@ private:
     bool             enabledModulation = false;
     bool             enabledGainDelay = true;
     bool             enabledEnvelope = true;
-    int              currentPreset = -1;
+
 
     void updateOriginal(void);
     void updateTimbre(void);
