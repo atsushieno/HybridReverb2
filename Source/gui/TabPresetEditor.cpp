@@ -526,6 +526,9 @@ void TabPresetEditor::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_textButtonSave] -- add your button handler code here..
         master->savePresetDB(presetDB_copy);
+        
+          updateListBox();
+          
         //[/UserButtonCode_textButtonSave]
     }
     else if (buttonThatWasClicked == textButtonSaveAs.get())
@@ -535,6 +538,9 @@ void TabPresetEditor::buttonClicked (Button* buttonThatWasClicked)
         String filename = getXmlFileChooserSave(dir);
         if (filename != String())
             master->savePresetDBas(presetDB_copy, filename);
+            
+              updateListBox();
+              
         //[/UserButtonCode_textButtonSaveAs]
     }
     else if (buttonThatWasClicked == textButtonApply.get())
@@ -544,22 +550,31 @@ void TabPresetEditor::buttonClicked (Button* buttonThatWasClicked)
         //[/UserButtonCode_textButtonApply]
     }
     else if (buttonThatWasClicked == textButtonOpen.get())
-    {
+    {		
         //[UserButtonCode_textButtonOpen] -- add your button handler code here..
+        
         String dir = master->getUserdir();
         String filename = getXmlFileChooserOpen(dir);
         if (filename != String())
         {
-            presetManager->readFile(filename);
+            presetManager->readFile(filename);           
             presetDB_copy.clear();
             presetDB_copy = presetManager->getPresetDBcopy();
+            defaultPresetNum = presetManager->getDefaultPresetNum();               
+            master->currentPreset = defaultPresetNum;
+            currentPresetNum = defaultPresetNum;
+            selectedRow = currentPresetNum - 1;                   
+            master->setPresetDB(presetDB_copy, false);           
             updateListBox();
-            master->setPresetDB(presetDB_copy, false);
         }
         //[/UserButtonCode_textButtonOpen]
     }
     else if (buttonThatWasClicked == textButtonAdd.get())
     {
+		
+   if((presetManager->numPresets + 1) > presetManager->maxPresets)
+   return;	
+   	
         //[UserButtonCode_textButtonAdd] -- add your button handler code here..
         ParamPreset newPreset;
         newPreset.name = TRANS("new preset");
@@ -567,17 +582,34 @@ void TabPresetEditor::buttonClicked (Button* buttonThatWasClicked)
         newPreset.category.cat_2 = TRANS("new category");
         newPreset.category.cat_3 = TRANS("new category");
         newPreset.category.cat_4 = TRANS("new category");
-        presetDB_copy.insert(presetDB_copy.begin() + selectedRow, newPreset);
+        
+        if(presetManager->numPresets <= 0)
+        {
+		 selectedRow = 0;	
+		}
+    
+        if(selectedRow > presetManager->numPresets)
+        selectedRow = presetManager->numPresets;
+        presetDB_copy.insert(presetDB_copy.begin() + selectedRow + 1, newPreset);
+        selectedRow += 1;
+        master->setPresetDB(presetDB_copy);         
         updateListBox();
         //[/UserButtonCode_textButtonAdd]
     }
     else if (buttonThatWasClicked == textButtonDelete.get())
     {
+		if((presetManager->numPresets - 1) < 0)
+		return;
+		
         //[UserButtonCode_textButtonDelete] -- add your button handler code here..
         if (presetDB_copy.size() > 0)
         {
-            presetDB_copy.erase(presetDB_copy.begin() + selectedRow);
-            updateListBox();
+	    if(selectedRow < presetManager->getNumPresets())
+	    {
+        presetDB_copy.erase(presetDB_copy.begin() + selectedRow);
+        master->setPresetDB(presetDB_copy);    
+        updateListBox();
+		}
         }
         //[/UserButtonCode_textButtonDelete]
     }
@@ -614,9 +646,6 @@ void TabPresetEditor::updateListBox()
 
 void TabPresetEditor::onComponentSelected(void)
 {
-    //FIXME: remove this
-    printf("TabPresetEditor selected\n");
-
     presetDB_copy = presetManager->getPresetDBcopy();
     defaultPresetNum = presetManager->getDefaultPresetNum();
     currentPresetNum = presetManager->getCurrentPresetNum();
@@ -624,7 +653,7 @@ void TabPresetEditor::onComponentSelected(void)
     updateListBox();
 }
 
-
+/*
 String TabPresetEditor::getWavFileChooserOpen(String dir)
 {
     FileChooser fc(TRANS("Choose a WAV file to open..."),
@@ -677,14 +706,132 @@ String TabPresetEditor::getXmlFileChooserSave(String dir)
 
     return String();
 }
+*/
 
+String TabPresetEditor::getWavFileChooserOpen(String dir)
+{
+String loadstring = "";
+
+  File sfile = juce::File::getSpecialLocation(File::userHomeDirectory).getChildFile(".hreverb2wav");
+
+  if (!sfile.existsAsFile())
+  {
+  auto result = sfile.create();   
+  if(!result.wasOk() )
+  {
+  DBG( "create file error");
+  jassertfalse;
+  }
+  }
+  else
+  loadstring = sfile.loadFileAsString();	
+	
+    FileChooser fc(TRANS("Choose a WAV file to open..."), File(loadstring), "*.wav", FileChooserUseNative);
+
+    if (fc.browseForFileToOpen())
+    {
+        File chosenFile = fc.getResult();
+
+  loadstring = chosenFile.getFullPathName();
+  loadstring = loadstring.upToLastOccurrenceOf("/", false, false);
+ // std::string cdir = loadstring.toStdString();
+
+  if (sfile.existsAsFile())
+  sfile.replaceWithText(loadstring);        
+        
+        return chosenFile.getFullPathName();
+    }
+
+    return String();
+}
+
+
+String TabPresetEditor::getXmlFileChooserOpen(String dir)
+{
+String loadstring = "";
+
+  File sfile = juce::File::getSpecialLocation(File::userHomeDirectory).getChildFile(".hreverb2xmlopen");
+
+  if (!sfile.existsAsFile())
+  {
+  auto result = sfile.create();   
+  if(!result.wasOk() )
+  {
+  DBG( "create file error");
+  jassertfalse;
+  }
+  }
+  else
+  loadstring = sfile.loadFileAsString();	
+  	
+    FileChooser fc(TRANS("Choose a XML file to open..."), File(loadstring), "*.xml", FileChooserUseNative);
+
+    if (fc.browseForFileToOpen())
+    {
+        File chosenFile = fc.getResult();
+        
+  loadstring = chosenFile.getFullPathName();
+  loadstring = loadstring.upToLastOccurrenceOf("/", false, false);
+ // std::string cdir = loadstring.toStdString();
+
+  if (sfile.existsAsFile())
+  sfile.replaceWithText(loadstring);        
+        
+        return chosenFile.getFullPathName();
+    }
+
+    return String();
+}
+
+
+String TabPresetEditor::getXmlFileChooserSave(String dir)
+{
+String loadstring = "";
+
+  File sfile = juce::File::getSpecialLocation(File::userHomeDirectory).getChildFile(".hreverb2xmlsave");
+
+  if (!sfile.existsAsFile())
+  {
+  auto result = sfile.create();   
+  if(!result.wasOk() )
+  {
+  DBG( "create file error");
+  jassertfalse;
+  }
+  }
+  else
+  loadstring = sfile.loadFileAsString();	
+  		
+	
+    FileChooser fc(TRANS("Choose a XML file to save..."), File(loadstring), "*.xml", FileChooserUseNative);
+
+    if (fc.browseForFileToSave(true))
+    {
+        File chosenFile = fc.getResult();
+        chosenFile.create();
+        
+  loadstring = chosenFile.getFullPathName();
+  loadstring = loadstring.upToLastOccurrenceOf("/", false, false);
+ // std::string cdir = loadstring.toStdString();
+
+  if (sfile.existsAsFile())
+  sfile.replaceWithText(loadstring);          
+        
+        return chosenFile.getFullPathName();
+    }
+    else
+        int debug_me = 1;
+
+    return String();
+}
 
 int TabPresetEditor::getNumRows()
 {
     if (presetManager == 0)
         return 0;
 
-    return presetDB_copy.size() + 1;
+ //   return presetDB_copy.size() + 1;
+ return presetDB_copy.size();
 }
 
 
@@ -707,13 +854,17 @@ void TabPresetEditor::paintListBoxItem(int rowNumber,
     String text = String::formatted("%d: ", num);
     if (num <= presetDB_copy.size())
         text += presetDB_copy[rowNumber].name;
+        /*
     else
         text += String(TRANS("<Empty>"));
+         */
+         
     g.drawText(text,
                4, 0,
                width - 4, height,
                Justification::centredLeft,
                true);
+              
 }
 
 
@@ -721,10 +872,13 @@ void TabPresetEditor::listBoxItemClicked(int row)
 {
     String text;
 
+    if((row) < presetManager->getNumPresets())
     selectedRow = row;
+  //  else 
+  //  selectedRow = presetManager->numPresets;
 
     if (row < presetDB_copy.size())
-    {
+    {		  
         text = presetDB_copy[row].name;
         textEditorTag->setText(text);
         textEditorTag->setEnabled(true);
@@ -751,10 +905,11 @@ void TabPresetEditor::listBoxItemClicked(int row)
 
         text = presetDB_copy[row].notes;
         textEditorNotes->setText(text);
-        textEditorNotes->setEnabled(true);
+        textEditorNotes->setEnabled(true);       
     }
     else
     {
+		/*
         textEditorTag->setText(String());
         textEditorTag->setEnabled(false);
 
@@ -778,19 +933,26 @@ void TabPresetEditor::listBoxItemClicked(int row)
 
         textEditorNotes->setText(String());
         textEditorNotes->setEnabled(false);
+        */
     }
+    
 }
 
 
 void TabPresetEditor::listBoxItemClicked(int row, const MouseEvent &e)
 {
-    listBoxItemClicked(row);
+    listBoxItemClicked(row);  
 }
 
 
 void TabPresetEditor::listBoxItemDoubleClicked(int row, const MouseEvent &e)
-{
-    listBoxItemClicked(row, e);
+{ 
+    if((row) < presetManager->getNumPresets())
+    {
+  	master->onValueChangedPresetNum(row + 1);
+    }	
+  	
+    listBoxItemClicked(row);
 }
 
 
