@@ -79,14 +79,17 @@ public:
     XmlElement* paramTimbreToXML           (const ParamTimbre           & param);
     XmlElement* paramGainDelayToXML        (const ParamGainDelay        & param);
     XmlElement* paramEnvelopeToXML         (const ParamEnvelope         & param);
+    
+    int numPresets = 0;
+    enum { maxPresets = 2560 };
 
 private:
     static String getSubText(XmlElement *element);
 
     String presetFile;
-    enum { maxPresets = 256 };
+ 
     std::unique_ptr<ParamPreset[]> preset;
-    int numPresets = 0;
+  
     int currentPresetNum = 1;
     int defaultPresetNum = 1;
 
