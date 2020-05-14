@@ -240,7 +240,7 @@ void HybridReverb2Processor::getStateInformation (MemoryBlock& destData)
     xmlState.setAttribute ("uiHeight", lastUIHeight);
 
     // use this helper function to stuff it into the binary blob and return it..
-    copyXmlToBinary (xmlState, destData);
+    copyXmlToBinary (xmlState, destData);   
 
     master->print(String("saving preset: ") +
                   String(currentPreset) +
@@ -262,6 +262,8 @@ void HybridReverb2Processor::setStateInformation (const void* data, int sizeInBy
 
             lastUIWidth = xmlState->getIntAttribute ("uiWidth", lastUIWidth);
             lastUIHeight = xmlState->getIntAttribute ("uiHeight", lastUIHeight);
+            
+            master->statepreset = currentPreset;            
 
             master->print(String("restoring preset: ") +
                           String(currentPreset) +
