@@ -1,4 +1,71 @@
 # HybridReverb2
+
+Binaries are at https://github.com/osxmidi/HybridReverb2/releases
+
+For Bitwig, the vst3 needs Bitwig 3.2 or higher.
+
+-------
+
+To use
+
+Initially, HybridReverb2 needs to download it's default preset file.
+
+After that, user presets can be added by using the Preset Editor tab.
+
+Wav IR files can be added to the preset.
+
+To load a preset, the + and - buttons can be used in the main tab and/or double clicking on the presets name in the Preset Editor tab will quickly load that preset.
+
+The parameter control settings in a preset can be saved using the Save button in the Preset Editor tab.
+
+The parameter controls in a preset go to their new value after the mouse is released at a certain value or if the mouse is clicked on the parameter controls at a certain value.
+
+Presets can be saved to an xml file (with .xml at the end of the preset file name) and preset files can be loaded.
+
+The default startup preset file can be set in the Preferences tab.
+
+-------
+
+Linux make instructions
+
+Place the unzipped HybridReverb2 master folder (this download/clone) into the ~/JUCE6 folder 
+
+There are basically 2 config options.
+
+1: Copy the contents of the JUCE6 modules folder to the ~/JUCE6/unzipped HybridReverb2 master/JuceLibraryCode/modules folder (for making the default Vst3 version)
+
+or
+
+2: Reconfigure using Projucer.
+
+Some files may then need to be edited
+ 
+For Vst3, edit plugin/JuceLibraryCode/AppConfig.h 
+ 
+and check that the below is entered
+ 
+```
+#ifndef    JUCE_VST3_CAN_REPLACE_VST2
+#define JUCE_VST3_CAN_REPLACE_VST2 0
+#endif 
+
+```
+
+To make with no Webkit, see the Webkit folder for manual config or choose the juce_gui_extra module in the Projucer and set 
+ JUCE_WEB_BROWSER to Disabled.
+ 
+Some libraries need to be installed
+
+sudo apt-get -y install webkit2gtk-4.0 git pkg-config libfreetype6-dev libx11-dev libxinerama-dev libxrandr-dev libxcursor-dev mesa-common-dev libasound2-dev freeglut3-dev libxcomposite-dev libcurl4-gnutls-dev libfftw3-dev
+
+To make the default Vst3 version, cd into the ~/JUCE6/unzipped HybridReverb2 master/Builds/LinuxMakefile folder
+
+make CONFIG=Release
+
+vst3 is installed into ~/.vst3
+
+--------
+
 Reverb effect using hybrid impulse convolution
 
 [![Build Status](https://semaphoreci.com/api/v1/jpcima/hybridreverb2/branches/master/badge.svg)](https://semaphoreci.com/jpcima/hybridreverb2)
