@@ -448,7 +448,7 @@ void TabPresetEditor::paint (Graphics& g)
 
     g.fillAll (Colour (0xffffe000));
 	
-    listBox->selectRow(selectedRow);	
+  //  listBox->selectRow(selectedRow);	
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -890,7 +890,10 @@ void TabPresetEditor::paintListBoxItem(int rowNumber,
                                        bool rowIsSelected)
 {
     int num = rowNumber + 1;
-
+	
+    if((num == selectedRow) && !rowIsSelected)
+     listBox->selectRow(selectedRow, false);      
+	
     if (rowIsSelected)
         g.fillAll (Colour (0xffbbbbff));
 
