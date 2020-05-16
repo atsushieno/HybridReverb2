@@ -447,6 +447,8 @@ void TabPresetEditor::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xffffe000));
+	
+    updateListBox();	
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
