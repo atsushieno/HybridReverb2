@@ -88,7 +88,7 @@ public:
     void resized() override;
     void buttonClicked (Button* buttonThatWasClicked) override;
 
-
+    int initupdate;
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
