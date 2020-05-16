@@ -33,7 +33,8 @@
 //==============================================================================
 TabPresetEditor::TabPresetEditor (MasterAndCommander *m)
     : master (m),
-      presetManager(0)
+      presetManager(0),
+      initupdate(0)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -447,8 +448,12 @@ void TabPresetEditor::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xffffe000));
-	
+
+    if(initupdate == 0)
+    {
     listBox->selectRow(selectedRow);	
+    initupdate = 1;
+    }	
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
