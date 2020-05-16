@@ -449,11 +449,11 @@ void TabPresetEditor::paint (Graphics& g)
 
     g.fillAll (Colour (0xffffe000));
 
-    if(initupdate == 0)
-    {
+  //  if(initupdate == 0)
+  //  {
     listBox->selectRow(selectedRow);	
-    initupdate = 1;
-    }	
+  //  initupdate = 1;
+  //  }	
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -624,10 +624,12 @@ void TabPresetEditor::buttonClicked (Button* buttonThatWasClicked)
             presetDB_copy.clear();
             presetDB_copy = presetManager->getPresetDBcopy();
         
-            defaultPresetNum = presetManager->getDefaultPresetNum();               
+            defaultPresetNum = presetManager->getDefaultPresetNum();  
+	    if(defaultPresetNum < 1)
+	    defaultPresetNum = 1;   			
             master->currentPreset = defaultPresetNum;
             currentPresetNum = defaultPresetNum;       
-            selectedRow = defaultPresetNum -1;            
+            selectedRow = defaultPresetNum - 1;     
             master->setPresetDB(presetDB_copy, false);                        
             updateListBox();
 		    }		    
