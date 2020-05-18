@@ -74,7 +74,7 @@ Copy the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modul
 
 Unzip the HybridReverb2-lv2-make.zip file in the HybridReverb2-master/Builds/LinuxMakefile/lv2 folder and copy the Makefile to the HybridReverb2-master/Builds/LinuxMakefile
 
-cd into HybridReverb2-master/Builds/LinuxMakefile
+cd into the HybridReverb2-master/Builds/LinuxMakefile folder
 
 make CONFIG=Release
 
