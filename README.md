@@ -66,6 +66,22 @@ vst3 is installed into ~/.vst3
 
 --------
 
+To make the lv2 download JUCE-lv2 from https://github.com/lv2-porting-project/JUCE
+
+Unzip the HybridReverb2-lv2-make.zip file in the HybridReverb2-master/Builds/LinuxMakefile/lv2 folder and copy the Makefile to the HybridReverb2-master/Builds/LinuxMakefile
+
+cd into HybridReverb2-master/Builds/LinuxMakefile
+
+make CONFIG=Release
+
+cd build
+
+copy lv2_ttl_generator and lvmake and makelv2 from the HybridReverb2-master/Builds/LinuxMakefile/lv2 folder
+
+./makelv2
+
+--------
+
 Reverb effect using hybrid impulse convolution
 
 [![Build Status](https://semaphoreci.com/api/v1/jpcima/hybridreverb2/branches/master/badge.svg)](https://semaphoreci.com/jpcima/hybridreverb2)
