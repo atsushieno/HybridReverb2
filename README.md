@@ -68,6 +68,10 @@ vst3 is installed into ~/.vst3
 
 To make the lv2 download JUCE-lv2 from https://github.com/lv2-porting-project/JUCE
 
+sudo apt-get install lv2-dev
+
+Copy the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modules folder 
+
 Unzip the HybridReverb2-lv2-make.zip file in the HybridReverb2-master/Builds/LinuxMakefile/lv2 folder and copy the Makefile to the HybridReverb2-master/Builds/LinuxMakefile
 
 cd into HybridReverb2-master/Builds/LinuxMakefile
