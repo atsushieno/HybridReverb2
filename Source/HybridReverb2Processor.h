@@ -120,6 +120,8 @@ public:
     // filter's other parameters, and the UI component will update them when it gets
     // resized.
     int lastUIWidth = 828, lastUIHeight = 548;
+    
+    int initdone = 0;
 
 private:
     // this is our current preset - the UI and the host can access this by getting/setting
