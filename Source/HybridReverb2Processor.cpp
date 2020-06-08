@@ -223,7 +223,11 @@ AudioProcessorEditor* HybridReverb2Processor::createEditor()
 
 void HybridReverb2Processor::onReadyEditor()
 {
+	if(initdone == 0)
+	{
     master->loadInitialPreset();
+    initdone = 1;
+    }
     master->onGuiReady();
 }
 
