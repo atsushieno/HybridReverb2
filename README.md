@@ -28,11 +28,9 @@ The default startup preset file can be set in the Preferences tab.
 
 Linux make instructions
 
-Place the unzipped HybridReverb2 folder (this download/clone) into the ~/JUCE6 folder 
-
 There are basically 2 config options.
 
-1: Copy the contents of the JUCE6 modules folder to the ~/JUCE6/HybridReverb2/JuceLibraryCode/modules folder (for making the default Vst3 version)
+1: Copy the contents of the JUCE modules folder to the JuceLibraryCode/modules folder (for making the default Vst3 version)
 
 or
 
@@ -41,30 +39,26 @@ or
 2: Reconfigure using Projucer.
 
 Some files may then need to be edited
- 
-For Vst3, edit plugin/JuceLibraryCode/AppConfig.h 
- 
+
+For Vst3, edit plugin/JuceLibraryCode/AppConfig.h
+
 and check that the below is entered
- 
-```
+
 #ifndef    JUCE_VST3_CAN_REPLACE_VST2
 #define JUCE_VST3_CAN_REPLACE_VST2 0
 #endif 
 
-```
+To make with no Webkit, see the Webkit folder for manual config or choose the juce_gui_extra module in the Projucer and set JUCE_WEB_BROWSER to Disabled.
 
-To make with no Webkit, see the Webkit folder for manual config or choose the juce_gui_extra module in the Projucer and set 
- JUCE_WEB_BROWSER to Disabled.
- 
+---------
+
 Some libraries need to be installed
-
---------
 
 sudo apt-get -y install git pkg-config libfreetype6-dev libx11-dev libxinerama-dev libxrandr-dev libxcursor-dev mesa-common-dev libasound2-dev freeglut3-dev libxcomposite-dev libcurl4-gnutls-dev libfftw3-dev
 
 (also webkit2gtk-4.0 if using webkit)
 
-To make the default Vst3 version, cd into the ~/JUCE6/HybridReverb2/Builds/LinuxMakefile folder
+To make the default Vst3 version, cd into the Builds/LinuxMakefile folder
 
 make CONFIG=Release
 
@@ -76,11 +70,11 @@ The lv2 version needs JUCE lv2 from the lv2 branch at https://github.com/lv2-por
 
 sudo apt-get install lv2-dev
 
-Copy/replace the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modules folder 
+Copy/replace the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modules folder
 
-Unzip the HybridReverb2-lv2-make.zip file in the HybridReverb2/Builds/LinuxMakefile/lv2 folder and copy the Makefile to the HybridReverb2/Builds/LinuxMakefile
+Unzip the HybridReverb2-lv2-make.zip file in the Builds/LinuxMakefile/lv2 folder and copy the Makefile to the Builds/LinuxMakefile folder
 
-cd into the HybridReverb2/Builds/LinuxMakefile folder
+cd into the Builds/Linux folder
 
 make CONFIG=Release
 
