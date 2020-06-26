@@ -36,6 +36,8 @@ There are basically 2 config options.
 
 or
 
+--------
+
 2: Reconfigure using Projucer.
 
 Some files may then need to be edited
@@ -56,6 +58,8 @@ To make with no Webkit, see the Webkit folder for manual config or choose the ju
  
 Some libraries need to be installed
 
+--------
+
 sudo apt-get -y install git pkg-config libfreetype6-dev libx11-dev libxinerama-dev libxrandr-dev libxcursor-dev mesa-common-dev libasound2-dev freeglut3-dev libxcomposite-dev libcurl4-gnutls-dev libfftw3-dev
 
 (also webkit2gtk-4.0 if using webkit)
@@ -72,7 +76,7 @@ The lv2 version needs JUCE lv2 from the lv2 branch at https://github.com/lv2-por
 
 sudo apt-get install lv2-dev
 
-Copy the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modules folder 
+Copy/replace the contents of the JUCE modules folder to the plugin/JuceLibraryCode/modules folder 
 
 Unzip the HybridReverb2-lv2-make.zip file in the HybridReverb2/Builds/LinuxMakefile/lv2 folder and copy the Makefile to the HybridReverb2/Builds/LinuxMakefile
 
