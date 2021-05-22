@@ -80,8 +80,6 @@ copy lv2_ttl_generator and lvmake and makelv2 (might need a chmod +x to make the
 
 Reverb effect using hybrid impulse convolution
 
-[![Build Status](https://semaphoreci.com/api/v1/jpcima/hybridreverb2/branches/master/badge.svg)](https://semaphoreci.com/jpcima/hybridreverb2)
-
 Original author: Christian Borß  
 Current maintainer: [Jean Pierre Cimalando](https://github.com/jpcima)  
 Contributor: [Olivier Humbert](https://github.com/trebmuh)
