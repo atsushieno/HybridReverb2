@@ -117,9 +117,8 @@ int PresetManager::readFile(const String &presetFilename)
                          presetFile.getFullPathName() +
                          "\"" + TRANS(":") + "\n" +
                          xmlDoc->getLastParseError();
-       // AlertWindow::showMessageBox(AlertWindow::WarningIcon, TRANS("Error"), message);
-        AlertWindow::showNativeDialogBox(TRANS("Error"), message, false);
         xmlDoc.reset();
+        AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, TRANS("Error"), message);
         return -1;
     }
 
@@ -152,8 +151,7 @@ int PresetManager::save(void)
     {
         String message = TRANS("Error writing preset file") + " \"" +
                           file.getFullPathName() + "\"";
-     //   AlertWindow::showMessageBox(AlertWindow::WarningIcon, TRANS("Error"), message);
-          AlertWindow::showNativeDialogBox(TRANS("Error"), message, false);
+          AlertWindow::showMessageBoxAsync(MessageBoxIconType::WarningIcon, TRANS("Error"), message);
         return -1;
     }
 

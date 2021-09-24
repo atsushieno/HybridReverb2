@@ -5,9 +5,9 @@
               pluginManufacturerCode="Bor&#223;" pluginCode="HRev" pluginChannelConfigs="{2,2},{1,1}"
               pluginCharacteristicsValue="pluginEditorRequiresKeys" version="2.0.2"
               pluginRTASCategory="8" pluginVSTCategory="kPlugCategRoomFx" pluginVST3Category="Reverb"
-              pluginAAXCategory="8" cppLanguageStandard="11" bundleIdentifier="de.rub.ika.borss"
-              defines="NO_OMP" includeBinaryInJuceHeader="0" maxBinaryFileSize="10485760"
-              pluginFormats="buildAU,buildStandalone,buildVST" jucerFormatVersion="1">
+              pluginAAXCategory="8" bundleIdentifier="de.rub.ika.borss" defines="NO_OMP"
+              buildVST3="1" includeBinaryInJuceHeader="0" maxBinaryFileSize="10485760" pluginFormats="buildAU,buildStandalone,buildVST3"
+              jucerFormatVersion="1">
   <MAINGROUP id="XTukN1" name="HybridReverb2">
     <GROUP id="{FEC4EED5-67C9-4FDE-AD66-308AED96CDBA}" name="I18n">
       <GROUP id="{ADA8F650-A883-F5D0-1155-8C7C6BEAE057}" name="release">
@@ -176,7 +176,8 @@
         <MODULEPATH id="juce_audio_utils" path="Thirdparty/JUCE/modules"/>
       </MODULEPATHS>
     </VS2017>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" linuxExtraPkgConfig="fftw3f">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" linuxExtraPkgConfig="fftw3f"
+                extraDefs="JUCE_MODAL_LOOPS_PERMITTED=1">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>
@@ -215,5 +216,6 @@
   <LIVE_SETTINGS>
     <LINUX/>
   </LIVE_SETTINGS>
-  <JUCEOPTIONS JUCE_ASIO="1" JUCE_JACK="1" JUCE_WEB_BROWSER="0" JUCE_LOAD_CURL_SYMBOLS_LAZILY="1"/>
+  <JUCEOPTIONS JUCE_ASIO="1" JUCE_JACK="1" JUCE_WEB_BROWSER="0" JUCE_LOAD_CURL_SYMBOLS_LAZILY="1"
+               JUCE_VST3_CAN_REPLACE_VST2="0"/>
 </JUCERPROJECT>
